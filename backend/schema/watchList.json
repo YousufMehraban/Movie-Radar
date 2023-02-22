@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "properties": {
+      "movie_name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50
+      },
+      "platform": {
+        "type": "string"
+      },
+      "poster": {
+        "type": "string"
+      },
+      "actors": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 60
+      },
+      "rating": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10
+      },
+      "release_date": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "DATETIME"
+      },
+      "user_id": {
+        "type": "integer",
+        "minLength": 1,
+        "maxLength": 10
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "movie_name",
+      "platform",
+      "poster",
+      "actors",
+      "rating",
+      "release_date",
+      "user_id"
+    ]
+  }
+  
