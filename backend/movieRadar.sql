@@ -11,7 +11,7 @@ CREATE DATABASE movie_radar;
 \echo 'Delete and recreate movie_radar_test db?'
 \prompt 'Return for yes or control-C to cancel > ' foo
 
-DROP DATABASE movie-radar_test;
+DROP DATABASE movie_radar_test;
 CREATE DATABASE movie_radar_test;
 \connect movie_radar_test
 

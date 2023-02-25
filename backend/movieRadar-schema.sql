@@ -1,13 +1,10 @@
-
-
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username TEXT NOT NULL,
+  username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email TEXT NOT NULL
-    CHECK (position('@' IN email) > 1),
+  email TEXT NOT NULL CHECK(position('@' IN email) > 1)
 );
 
 CREATE TABLE watch_list (
@@ -17,9 +14,8 @@ CREATE TABLE watch_list (
   poster TEXT,
   actors TEXT,
   rating TEXT,
-  release_date DATETIME,
-  user_id INTEGER NOT NULL
-    REFERENCES users ON DELETE CASCADE
+  release_year INTEGER,
+  user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE recommendation (
@@ -29,7 +25,6 @@ CREATE TABLE recommendation (
   poster TEXT,
   actors TEXT,
   rating TEXT,
-  release_date DATETIME,
-  user_id INTEGER NOT NULL
-    REFERENCES users ON DELETE CASCADE
+  release_year INTEGER,
+  user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );

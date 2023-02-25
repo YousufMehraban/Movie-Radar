@@ -24,11 +24,10 @@
       "minLength": 1,
       "maxLength": 10
     },
-    "release_date": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 10,
-      "format": "DATETIME"
+    "release_year": {
+      "type": "integer",
+      "minLength": 4,
+      "maxLength": 4
     },
     "user_id": {
       "type": "integer",
@@ -43,7 +42,7 @@
     "poster",
     "actors",
     "rating",
-    "release_date",
+    "release_year",
     "user_id"
   ]
 }
