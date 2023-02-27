@@ -7,8 +7,8 @@ const { BadRequestError, NotFoundError } = require("../customError");
 
 class Recommendation {
   /** Create recommendation list (from data), update db, return recommendation list data.
-   * recommendation = { movie_name, platform, poster, actors, rating, release_year, user_id }
-   * Returns { movie_name, platform, poster, actors, rating, release_year, user_id  }
+   * recommendation = { movie_name, platform, poster, rating, release_year,imdb_id, user_id }
+   * Returns { movie_name, platform, poster, rating, release_year,imdb_id, user_id  }
    * Throws BadRequestError if movie_name already exist in database.
    * */
 
@@ -16,9 +16,9 @@ class Recommendation {
     movie_name,
     platform,
     poster,
-    actors,
     rating,
     release_year,
+    imdb_id,
     user_id,
   }) {
     const duplicateCheck = await db.query(
@@ -33,10 +33,10 @@ class Recommendation {
 
     const result = await db.query(
       `INSERT INTO recommendation
-           ( movie_name, platform, poster, actors, rating, release_year, user_id )
+           ( movie_name, platform, poster, rating, release_year, imdb_id, user_id )
            VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING  movie_name, platform, poster, actors, rating, release_year, user_id `,
-      [movie_name, platform, poster, actors, rating, release_year, user_id]
+           RETURNING  movie_name, platform, poster, rating, release_year, imdb_id, user_id `,
+      [movie_name, platform, poster, rating, release_year, imdb_id, user_id]
     );
     const recommendation = result.rows[0];
 
@@ -44,23 +44,23 @@ class Recommendation {
   }
 
   /** Find all movies in recommendation.
-   * Returns [{ movie_name, platform, poster, actors, rating, release_year, user_id },...]
+   * Returns [{ movie_name, platform, poster, rating, release_year, imdb_id, user_id },...]
    * */
 
   static async findAll() {
     const recommendations =
-      await db.query(`SELECT movie_name, platform, poster, actors, rating, release_year, user_id 
+      await db.query(`SELECT movie_name, platform, poster, rating, release_year, imdb_id, user_id 
     FROM recommendation`);
     return recommendations.rows;
   }
 
   /** Find a movie in recommendation.
-   * Returns { movie_name, platform, poster, actors, rating, release_year, user_id }
+   * Returns { movie_name, platform, poster, rating, release_year,imdb_id, user_id }
    * */
 
   static async find(movie_name) {
     const movie = await db.query(
-      `SELECT movie_name, platform, poster, actors, rating, release_year, user_id 
+      `SELECT movie_name, platform, poster, rating, release_year, imdb_id, user_id 
     FROM recommendation WHERE movie_name = $1`,
       [movie_name]
     );

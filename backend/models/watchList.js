@@ -7,8 +7,8 @@ const { BadRequestError, NotFoundError } = require("../customError");
 
 class WatchList {
   /** Create watch_list list (from data), update db, return the list data.
-   * data should be { movie_name, platform, poster, actors, rating, release_year, user_id }
-   * Returns { movie_name, platform, poster, actors, rating, release_year, user_id  }
+   * data should be { movie_name, platform, poster, rating, release_year, imdb_id, user_id }
+   * Returns { movie_name, platform, poster, rating, release_year, imdb_id, user_id  }
    * Throws BadRequestError if movie_name already exist in database.
    * */
 
@@ -16,9 +16,9 @@ class WatchList {
     movie_name,
     platform,
     poster,
-    actors,
     rating,
     release_year,
+    imdb_id,
     user_id,
   }) {
     const duplicateCheck = await db.query(
@@ -33,10 +33,10 @@ class WatchList {
 
     const result = await db.query(
       `INSERT INTO watch_list
-           ( movie_name, platform, poster, actors, rating, release_year, user_id )
+           ( movie_name, platform, poster, rating, release_year, imdb_id, user_id )
            VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING  movie_name, platform, poster, actors, rating, release_year, user_id `,
-      [movie_name, platform, poster, actors, rating, release_year, user_id]
+           RETURNING  movie_name, platform, poster, rating, release_year, imdb_id, user_id `,
+      [movie_name, platform, poster, rating, release_year, imdb_id, user_id]
     );
     const watch_list = result.rows[0];
 
@@ -44,12 +44,12 @@ class WatchList {
   }
 
   /** Find all movie_names from watch_list.
-   * Returns [{ movie_name, platform, poster, actors, rating, release_year, user_id },...]
+   * Returns [{ movie_name, platform, poster, rating, release_year, imdb_id, user_id },...]
    * */
 
   static async findAll() {
     const watch_lists =
-      await db.query(`SELECT movie_name, platform, poster, actors, rating, release_year, user_id 
+      await db.query(`SELECT movie_name, platform, poster, rating, release_year, imdb_id, user_id 
     FROM watch_list`);
     return watch_lists.rows;
   }

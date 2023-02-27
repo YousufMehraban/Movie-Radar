@@ -22,9 +22,9 @@ describe("create", function () {
     movie_name: "M1",
     platform: "NetFlix",
     poster: "url",
-    actors: "salman khan",
     rating: "10/10",
     release_year: 2023,
+    imdb_id: "id1",
     user_id: 1,
   };
 
@@ -59,9 +59,9 @@ describe("findAll", function () {
       platform: "amazon prime",
       poster:
         "https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtYjU4Ny00MDZkLTk3MmUtYTRjMzVkZGJlNmYyXkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_SX300.jpg",
-      actors: "Shah Rukh Khan",
       rating: "6.6/10",
       release_year: 2023,
+      imdb_id: "tt12844910",
       user_id: 1,
     });
   });

@@ -14,7 +14,7 @@
     "poster": {
       "type": "string"
     },
-    "actors": {
+    "imdb_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 60
@@ -40,7 +40,7 @@
     "movie_name",
     "platform",
     "poster",
-    "actors",
+    "imdb_id",
     "rating",
     "release_year",
     "user_id"

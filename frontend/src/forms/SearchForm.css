@@ -1,0 +1,10 @@
+#searchForm {
+    display: flex;
+    flex-direction: row;
+    width: 35vw;
+    padding: 0px;
+    margin: 0%;
+    background-color: white;
+    margin-bottom: 30px;
+  }
+  

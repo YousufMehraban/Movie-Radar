@@ -10,6 +10,7 @@ const router = new express.Router();
 const { createToken } = require("../helpers/createToken");
 const userSchema = require("../schemas/user.json");
 const userAuthSchema = require("../schemas/userAuthSchema.json");
+const userUpdateSchema = require("../schemas/userUpdateSchema.json");
 const { BadRequestError } = require("../customError");
 const { ensureLoggedIn } = require("../middleware/authorizations");
 
@@ -82,5 +83,20 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
     return next(err);
   }
 });
+
+router.patch("/", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const validator = jsonschema.validate(req.body, userUpdateSchema);
+    if (!validator.valid) {
+      const errs = validator.errors.map((e) => e.stack);
+      throw new BadRequestError(errs);
+    }
+    await User.update({ ...req.body });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
 
 module.exports = router;

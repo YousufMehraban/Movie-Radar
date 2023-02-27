@@ -17,9 +17,9 @@ const router = new express.Router();
     "movie_name",
     "platform",
     "poster",
-    "actors",
     "rating",
     "release_year",
+    imdb_id,
     "user_id" 
   }
  *
@@ -27,9 +27,9 @@ const router = new express.Router();
     "movie_name",
     "platform",
     "poster",
-    "actors",
     "rating",
     "release_year",
+    imdb_id,
     "user_id" 
   }
  * Authorization required: must be logged in
@@ -55,9 +55,9 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
     "movie_name",
     "platform",
     "poster",
-    "actors",
     "rating",
     "release_year",
+    imdb_id,
     "user_id" 
   }, ...] }
  * Authorization required: must be logged in
@@ -78,9 +78,9 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
     "movie_name",
     "platform",
     "poster",
-    "actors",
     "rating",
     "release_year",
+    imdb_id,
     "user_id" 
   }
  *  movie is a single entry in watch list.

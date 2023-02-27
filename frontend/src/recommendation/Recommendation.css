@@ -1,0 +1,38 @@
+#wrapper a {
+  text-decoration: none;
+  color: unset;
+  align-self: flex-start;
+}
+
+a:hover {
+  color: unset;
+  opacity: 0.55;
+}
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 35vw;
+  padding: 25px;
+  margin: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  text-align: left;
+  color: white;
+  box-shadow: 1px 1px 5px 5px rgb(148, 148, 170);
+}
+
+#search {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  width: 35vw;
+}
+#search button,
+input {
+  height: 40px;
+  margin: 5px 0px 5px 0px;
+}

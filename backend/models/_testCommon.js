@@ -29,22 +29,22 @@ async function commonBeforeAll() {
   await db.query(`INSERT INTO watch_list (movie_name,
     platform,
     poster,
-    actors,
     rating,
     release_year,
+    imdb_id,
     user_id);
 VALUES ('Pathaan', 'amazon prime', "https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtYjU4Ny00MDZkLTk3MmUtYTRjMzVkZGJlNmYyXkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_SX300.jpg",
-'Shah Rukh Khan', '6.6/10', 2023, 1)`);
+'6.6/10', 2023, tt12844910, 1)`);
 
   await db.query(`INSERT INTO recommendation (movie_name,
     platform,
     poster,
-    actors,
     rating,
     release_year,
+    imdb_id,
     user_id);
 VALUES ('Pathaan', 'amazon prime', "https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtYjU4Ny00MDZkLTk3MmUtYTRjMzVkZGJlNmYyXkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_SX300.jpg",
-'Shah Rukh Khan', '6.6/10', 2023, 1)`);
+'6.6/10', 2023, tt12844910, 1)`);
 }
 
 async function commonBeforeEach() {

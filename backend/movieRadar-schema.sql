@@ -12,9 +12,9 @@ CREATE TABLE watch_list (
   movie_name TEXT NOT NULL,
   platform TEXT,
   poster TEXT,
-  actors TEXT,
   rating TEXT,
   release_year INTEGER,
+  imdb_id TEXT,
   user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );
 
@@ -23,8 +23,8 @@ CREATE TABLE recommendation (
   movie_name TEXT NOT NULL,
   platform TEXT,
   poster TEXT,
-  actors TEXT,
   rating TEXT,
   release_year INTEGER,
+  imdb_id TEXT,
   user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );
