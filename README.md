@@ -1,23 +1,33 @@
 README.md
-Movie Radar
+***Movie Radar
 
-Movie Radar is a full-stack movie searching application/website.
+Movie Radar is a full-stack movie searching application/website.  
 
-It lets users to find our what platform streams the movie.
+It lets users to find our what platform streams the movie.  
 
-Users should login or register to use the application.
+Users should login or register to use the application.  
 
-To run backend, cd to backend 
+__To run backend__    
 
-**npm install** installs all the required packages.
+**cd to backend**   
 
-**node server.js** // server runs on port 3001  runs the backend server.
+**npm install**    
+installs all the required packages.  
 
-To run forntend cd to forntend
+**node server.js** // server runs on port 3001  
+runs the backend server.  
 
-**npm install**  installs all the required packages.
+___To run forntend__
 
-**npm start** // server runs on port 3000  -- starts frontend server.
+__cd to forntend__  
+
+**npm install**     
+
+installs all the required packages.   
+
+**npm start** // server runs on port 3000      
+
+starts frontend server.    
 
 
 <img width="1426" alt="1" src="https://user-images.githubusercontent.com/84886044/221547135-d9969500-96eb-4dc3-b118-87cf642380fd.png">
