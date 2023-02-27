@@ -8,14 +8,20 @@ import HomepageCard from "./HomepageCard";
 
 const HomePage = () => {
   const { currentUser } = useContext(userContext);
-  const [movies, setMovies] = useState("");
+  const [imdb_id, setImdb_id] = useState(null);
   const history = useHistory();
 
   async function search(term) {
     const imdb_id = await MovieRadarAPI.getIMDB(term);
-    setMovies( imdb_id);
+    setImdb_id(imdb_id);
     // const res = await MovieRadarAPI.getSources(imdb_id);
     // setMovies(res);
+    // return history.push("/");
+  }
+
+  async function search(term) {
+    const res = await MovieRadarAPI.getMovieSources(term);
+    setMovies(res);
     // return history.push("/");
   }
 
@@ -27,11 +33,18 @@ const HomePage = () => {
             <SearchForm search={search} />
           </div>
 
-        <h1>{movies}</h1>
-          {/* {movies.map((movie) => {
-                return <HomepageCard movie={movie} />;
-              })
-            } */}
+          <div>
+
+          {/* <h1>{imdb_id}</h1> */}
+            {imdb_id ? imdb_id.map(id=> {
+              return <HomepageCard imdb_id={imdb_id} />
+            }) : "loading...."}
+            {/* {movies
+              ? movies.map((movie) => {
+                  return <HomepageCard movie={movie} />;
+                })
+              : "loading ...."} */}
+          </div>
 
           <h1> Welcome to Movie Radar! </h1>
           <br></br>
@@ -104,7 +117,9 @@ const HomePage = () => {
         </>
       ) : (
         <>
-          <h1> Please login or register to use the app! </h1>
+          <h1> Welcome to Movie Radar! </h1>
+
+          <h4> Please login or register to use the app! </h4>
           <br></br>
           <br></br>
           <p>We know whether it's on:</p>
@@ -171,8 +186,6 @@ const HomePage = () => {
             Sign Up
           </Link> */}
 
-
-
           <footer>
             <hr></hr>
             <p class="about">
@@ -181,7 +194,6 @@ const HomePage = () => {
             </p>
             <p>© Copyright 2023 - Yousuf Mehraban</p>
           </footer>
-
         </>
       )}
     </div>

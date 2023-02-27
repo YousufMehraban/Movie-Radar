@@ -38,11 +38,27 @@ class MovieRadarAPI {
     }
   }
 
+  // static async nameRequest(endpoint, data = {}, method = "get") {
+  //   console.debug("API Call:", endpoint, method);
+
+  //   const url = `${API_NAME_URL}${endpoint}`;
+  //   const headers = { apiKey: this.key };
+  //   const params = method === "get" ? data : {};
+
+  //   try {
+  //     return (await axios({ url, method, data, params, headers })).data;
+  //   } catch (err) {
+  //     console.error("nameAPI Error:", err.response);
+  //     let message = err.response.data.error.message;
+  //     throw Array.isArray(message) ? message : [message];
+  //   }
+  // }
+
   static async nameRequest(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, method);
 
-    const url = `${API_NAME_URL}${endpoint}`;
-    const headers = { apiKey: this.key };
+    const url = `https://api.watchmode.com/v1/search/?apiKey=${this.key}&search_field=name&search_value=${endpoint}`;
+    const headers = {};
     const params = method === "get" ? data : {};
 
     try {
@@ -57,8 +73,8 @@ class MovieRadarAPI {
   static async detailRequest(endpoint, data = {}, method = "get") {
     console.debug("detailAPI Call:", endpoint, method);
 
-    const url = `${WatchMode_API_URL}/${endpoint}/details`;
-    const headers = { apiKey: this.key };
+    const url = `${WatchMode_API_URL}/${endpoint}/details/apiKey=${this.key}`;
+    const headers = {};
     const params = method === "get" ? data : {};
 
     try {
@@ -72,8 +88,8 @@ class MovieRadarAPI {
   static async sourceRequest(endpoint, data = {}, method = "get") {
     console.debug("sourceAPI Call:", endpoint, method);
 
-    const url = `${WatchMode_API_URL}/${endpoint}/sources`;
-    const headers = { apiKey: this.key };
+    const url = `${WatchMode_API_URL}/${endpoint}/sources/apiKey=${this.key}`;
+    const headers = {};
     const params = method === "get" ? data : {};
 
     try {
@@ -160,7 +176,7 @@ class MovieRadarAPI {
     const imdb_id = res.title_results[0].imdb_id;
     if (imdb_id) {
       let res2 = await this.sourceRequest(imdb_id);
-      // res2 is an array of objects, each object has => source_id, name, type, web_url
+      // res2 is an array of objects, each object has => source_id, name, type, web_url, price
       return res2;
     }
   }
