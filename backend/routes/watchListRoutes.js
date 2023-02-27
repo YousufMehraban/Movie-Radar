@@ -65,7 +65,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const watchlists = await WatchList.findAll();
+    const watchlists = await WatchList.findMyWatchlist(req.body);
     return res.json({ watchlists });
   } catch (err) {
     return next(err);

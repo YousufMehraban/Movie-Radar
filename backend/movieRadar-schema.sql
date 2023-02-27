@@ -7,7 +7,7 @@ CREATE TABLE users (
   email TEXT NOT NULL CHECK(position('@' IN email) > 1)
 );
 
-CREATE TABLE watch_list (
+CREATE TABLE movie (
   id SERIAL PRIMARY KEY,
   movie_name TEXT NOT NULL,
   platform TEXT,
@@ -15,16 +15,16 @@ CREATE TABLE watch_list (
   rating TEXT,
   release_year INTEGER,
   imdb_id TEXT,
+);
+
+CREATE TABLE watch_list (
+  id SERIAL PRIMARY KEY,
+  movie_id INTEGER NOT NULL REFERENCES movie ON DELETE CASCADE,
   user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE recommendation (
   id SERIAL PRIMARY KEY,
-  movie_name TEXT NOT NULL,
-  platform TEXT,
-  poster TEXT,
-  rating TEXT,
-  release_year INTEGER,
-  imdb_id TEXT,
+  movie_id INTEGER NOT NULL REFERENCES movie ON DELETE CASCADE,
   user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
 );

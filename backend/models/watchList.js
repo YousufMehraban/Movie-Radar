@@ -21,22 +21,30 @@ class WatchList {
     imdb_id,
     user_id,
   }) {
-    const duplicateCheck = await db.query(
-      `SELECT movie_name
-           FROM watch_list
+    let movieId = null;
+    const movie_exists = await db.query(
+      `SELECT id
+           FROM movie
            WHERE movie_name = $1`,
       [movie_name]
     );
 
-    if (duplicateCheck.rows[0])
-      throw new BadRequestError(`Duplicate movie_name: ${movie_name}`);
+    if (movie_exists.rows[0]) movieId = movie_exists.rows[0].id;
+    else {
+      const newMovie = await db.query(
+        `Insert into movie (movie_name, platform, poster, rating, release_year, imdb_id)
+             values ($1, $2, $3, $4, $5, $6)
+             RETURNING  id`,
+        [movie_name, platform, poster, rating, release_year, imdb_id]
+      );
+      movieId = newMovie.rows[0].id;
+    }
 
     const result = await db.query(
       `INSERT INTO watch_list
-           ( movie_name, platform, poster, rating, release_year, imdb_id, user_id )
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING  movie_name, platform, poster, rating, release_year, imdb_id, user_id `,
-      [movie_name, platform, poster, rating, release_year, imdb_id, user_id]
+           ( movie_id user_id )
+           VALUES ($1, $2) `,
+      [movie_id, user_id]
     );
     const watch_list = result.rows[0];
 
@@ -47,10 +55,12 @@ class WatchList {
    * Returns [{ movie_name, platform, poster, rating, release_year, imdb_id, user_id },...]
    * */
 
-  static async findAll() {
-    const watch_lists =
-      await db.query(`SELECT movie_name, platform, poster, rating, release_year, imdb_id, user_id 
-    FROM watch_list`);
+  static async findMyWatchlist(userId) {
+    const watch_lists = await db.query(
+      `SELECT m.movie_name, m.platform, m.poster, m.rating, m.release_year, m.imdb_id, w.user_id 
+    FROM movie as m inner join watch_list as w on m.id=w.movie_id where w.user_id=$1`,
+      [userId]
+    );
     return watch_lists.rows;
   }
 
@@ -58,16 +68,11 @@ class WatchList {
    * Returns [{ movie_name }]
    * */
   static async remove(movie_name) {
-    const result = await db.query(
+    await db.query(
       `DELETE
-           FROM watch_list
-           WHERE movie_name = $1
-           RETURNING movie_name`,
-      [movie_name]
+           FROM watch_list as w inner join movie as m on m.id=w.movie_id
+           WHERE m.movie_name = $1`
     );
-    const movie = result.rows[0];
-
-    if (!movie) throw new NotFoundError(`Movie_name not found: ${movie}`);
   }
 }
 
