@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { Form, Input, Button } from "reactstrap";
 import "./SearchForm.css";
 
@@ -12,6 +13,7 @@ const SearchForm = ({ search }) => {
     e.preventDefault();
     search(searchTerm.trim() || undefined);
     setSearchTerm(searchTerm.trim());
+    // return <Redirect to="/movies" />;
   };
 
   return (

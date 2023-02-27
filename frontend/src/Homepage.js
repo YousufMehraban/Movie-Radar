@@ -9,20 +9,12 @@ import HomepageCard from "./HomepageCard";
 const HomePage = () => {
   const { currentUser } = useContext(userContext);
   const [imdb_id, setImdb_id] = useState(null);
-  const history = useHistory();
+  const [sources, setSources] = useState(null);
 
   async function search(term) {
     const imdb_id = await MovieRadarAPI.getIMDB(term);
-    setImdb_id(imdb_id);
-    // const res = await MovieRadarAPI.getSources(imdb_id);
-    // setMovies(res);
-    // return history.push("/");
-  }
-
-  async function search(term) {
-    const res = await MovieRadarAPI.getMovieSources(term);
-    setMovies(res);
-    // return history.push("/");
+    const res = await MovieRadarAPI.getSources(imdb_id);
+    setSources(res);
   }
 
   return (
@@ -34,16 +26,11 @@ const HomePage = () => {
           </div>
 
           <div>
-
-          {/* <h1>{imdb_id}</h1> */}
-            {imdb_id ? imdb_id.map(id=> {
-              return <HomepageCard imdb_id={imdb_id} />
-            }) : "loading...."}
-            {/* {movies
-              ? movies.map((movie) => {
+            {sources
+              ? sources.map((movie) => {
                   return <HomepageCard movie={movie} />;
                 })
-              : "loading ...."} */}
+              : ""}
           </div>
 
           <h1> Welcome to Movie Radar! </h1>
@@ -108,7 +95,7 @@ const HomePage = () => {
 
           <footer>
             <hr></hr>
-            <p class="about">
+            <p className="about">
               <a href="/">Home</a> |{" "}
               <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
             </p>
@@ -178,17 +165,10 @@ const HomePage = () => {
             alt="Google Playstore logo"
             className="img-logo"
           />
-          {/* <br></br>
-          <Link to="/login" className="btn btn-primary">
-            Log In
-          </Link>
-          <Link to="/register" className="btn btn-primary">
-            Sign Up
-          </Link> */}
 
           <footer>
             <hr></hr>
-            <p class="about">
+            <p className="about">
               <a href="/">Home</a> |{" "}
               <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
             </p>

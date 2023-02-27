@@ -73,7 +73,7 @@ class MovieRadarAPI {
   static async detailRequest(endpoint, data = {}, method = "get") {
     console.debug("detailAPI Call:", endpoint, method);
 
-    const url = `${WatchMode_API_URL}/${endpoint}/details/apiKey=${this.key}`;
+    const url = `${WatchMode_API_URL}/${endpoint}/details/?apiKey=${this.key}`;
     const headers = {};
     const params = method === "get" ? data : {};
 
@@ -88,7 +88,7 @@ class MovieRadarAPI {
   static async sourceRequest(endpoint, data = {}, method = "get") {
     console.debug("sourceAPI Call:", endpoint, method);
 
-    const url = `${WatchMode_API_URL}/${endpoint}/sources/apiKey=${this.key}`;
+    const url = `${WatchMode_API_URL}/${endpoint}/sources/?apiKey=${this.key}`;
     const headers = {};
     const params = method === "get" ? data : {};
 
