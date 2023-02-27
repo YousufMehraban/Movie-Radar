@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "./Form.css";
 
@@ -12,7 +12,7 @@ const SignUpForm = ({ signUp }) => {
     email: "",
   };
   const [formData, setFormData] = useState(formInitialVal);
-
+  const history = useHistory();
   const handleChange = (e) => {
     setFormData((data) => {
       return { ...data, [e.target.name]: e.target.value };
@@ -23,7 +23,7 @@ const SignUpForm = ({ signUp }) => {
     e.preventDefault();
     signUp(formData);
     setFormData(formInitialVal);
-    return <Route path="*" element={<Navigate to="/" replace />} />;
+    return history.push("/");
   };
 
   return (
@@ -48,9 +48,9 @@ const SignUpForm = ({ signUp }) => {
             <Input
               type="text"
               id="firstname"
-              name="first_ame"
+              name="first_name"
               autoComplete="first_name"
-              placeholder="First_ame"
+              placeholder="FirstName"
               value={formData.first_name}
               onChange={handleChange}
             />

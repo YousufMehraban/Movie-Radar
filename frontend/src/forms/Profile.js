@@ -2,14 +2,14 @@ import React, { useContext, useState } from "react";
 import userContext from "../helpers/userContext";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import MovieRadarAPI from "../APIs";
-import { Link, Navigate, Route } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Form.css";
 
 const Profile = () => {
   const initialVal = { first_name: "", last_name: "", email: "" };
   const [formData, setFormData] = useState(initialVal);
   const { currentUser, setCurrentUser } = useContext(userContext);
-
+  const history = useHistory();
   function handleChange(event) {
     setFormData((data) => {
       return { ...data, [event.target.name]: event.target.value };
@@ -20,7 +20,7 @@ const Profile = () => {
     event.preventDefault();
     const { username } = currentUser;
     await MovieRadarAPI.updateUser(username, formData);
-    return <Route path="*" element={<Navigate to="/" replace />} />;
+    return history.push("/");
   }
 
   return (

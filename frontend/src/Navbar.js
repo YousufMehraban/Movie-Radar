@@ -39,12 +39,12 @@ const NavBar = ({ logOut }) => {
         ) : (
           <>
             <NavItem>
-              <NavLink exact to="/users/login">
+              <NavLink exact to="/login">
                 Log In
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink exact to="/users/register">
+              <NavLink exact to="/register">
                 Sign Up
               </NavLink>
             </NavItem>

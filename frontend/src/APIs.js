@@ -164,6 +164,18 @@ class MovieRadarAPI {
       return res2;
     }
   }
+
+  static async getIMDB(movie_name) {
+    let res = await this.nameRequest(movie_name);
+    const imdb_id = res.title_results[0].imdb_id;
+    return imdb_id;
+  }
+
+  static async getSources(imdb_id) {
+    let res2 = await this.sourceRequest(imdb_id);
+    // res2 is an array of objects, each object has => source_id, name, type, web_url
+    return res2;
+  }
 }
 
 export default MovieRadarAPI;

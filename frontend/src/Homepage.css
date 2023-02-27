@@ -1,13 +1,38 @@
 .movieRadarHome {
-  margin-top: 40vh;
+  margin-top: 30vh;
   color: white;
   font-size: x-large;
 }
 h1 {
   font-size: 3rem;
 }
+.img-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  margin-left: 10px;
+}
 
 .btn {
   width: 85px;
   margin: 5px;
+}
+
+#search {
+  position: absolute;
+  top: 20%;
+  left: 32%;
+  width: 35vw;
+}
+#search button,
+input {
+  height: 40px;
+  margin: 5px 0px 5px 0px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 38%;
+  font-size: 16px;
 }

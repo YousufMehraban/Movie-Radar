@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Navigate, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import "./Form.css";
 
 const LogInForm = ({ logIn }) => {
   const initialVal = { username: "", password: "" };
   const [formData, setFormData] = useState(initialVal);
-
+  const history = useHistory();
   const handleChange = (event) => {
     setFormData((data) => {
       return { ...data, [event.target.name]: event.target.value };
@@ -16,7 +16,7 @@ const LogInForm = ({ logIn }) => {
     event.preventDefault();
     await logIn(formData);
     setFormData(initialVal);
-    return <Route path="*" element={<Navigate to="/" replace />} />;
+    return history.push("/");
   }
 
   return (

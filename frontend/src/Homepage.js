@@ -1,113 +1,187 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import "./Homepage.css";
 import userContext from "./helpers/userContext";
+import SearchForm from "./forms/SearchForm";
+import MovieRadarAPI from "./APIs";
+import HomepageCard from "./HomepageCard";
 
 const HomePage = () => {
   const { currentUser } = useContext(userContext);
+  const [movies, setMovies] = useState("");
+  const history = useHistory();
+
+  async function search(term) {
+    const imdb_id = await MovieRadarAPI.getIMDB(term);
+    setMovies( imdb_id);
+    // const res = await MovieRadarAPI.getSources(imdb_id);
+    // setMovies(res);
+    // return history.push("/");
+  }
 
   return (
     <div className="movieRadarHome">
       {currentUser ? (
         <>
-          <h1> Welcome to Movie Radar, {currentUser.username}! </h1>
+          <div id="search">
+            <SearchForm search={search} />
+          </div>
+
+        <h1>{movies}</h1>
+          {/* {movies.map((movie) => {
+                return <HomepageCard movie={movie} />;
+              })
+            } */}
+
+          <h1> Welcome to Movie Radar! </h1>
+          <br></br>
+          <br></br>
           <p>We know whether it's on:</p>
           <img
-            src="../public/logos/netflix.png"
+            src="/logos/netflix.png"
             alt="netflix logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/hboMax.png"
+            src="/logos/hboMax.png"
             alt="/HBO Max logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/youtube.png"
+            src="/logos/youtube.png"
             alt="Youtube logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/appletv.png"
+            src="/logos/appletv.png"
             alt="Apple TV logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/directtv.png"
+            src="/logos/directtv.png"
             alt="Direct TV logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/MSstore.png"
+            src="/logos/MSstore.png"
             alt="Microsoft Store logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/playstore.png"
+            src="/logos/playstore.png"
             alt="Google Playstore logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
+          <img
+            src="/logos/hulu.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/hbo.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/itunes.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/peacock.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+
+          <footer>
+            <hr></hr>
+            <p class="about">
+              <a href="/">Home</a> |{" "}
+              <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
+            </p>
+            <p>© Copyright 2023 - Yousuf Mehraban</p>
+          </footer>
         </>
       ) : (
         <>
           <h1> Please login or register to use the app! </h1>
+          <br></br>
+          <br></br>
           <p>We know whether it's on:</p>
           <img
-            src="../public/logos/netflix.png"
+            src="/logos/netflix.png"
             alt="netflix logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/hboMax.png"
+            src="/logos/hboMax.png"
             alt="/HBO Max logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/youtube.png"
+            src="/logos/youtube.png"
             alt="Youtube logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/appletv.png"
+            src="/logos/appletv.png"
             alt="Apple TV logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/directtv.png"
+            src="/logos/directtv.png"
             alt="Direct TV logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/MSstore.png"
+            src="/logos/MSstore.png"
             alt="Microsoft Store logo"
-            width="200px"
-            height="200px"
-          ></img>
+            className="img-logo"
+          />
           <img
-            src="../public/logos/playstore.png"
+            src="/logos/playstore.png"
             alt="Google Playstore logo"
-            width="200px"
-            height="200px"
-          ></img>
-
-          <Link to="/users/login" className="btn btn-primary">
+            className="img-logo"
+          />
+          <img
+            src="/logos/hulu.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/hbo.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/itunes.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/peacock.png"
+            alt="Google Playstore logo"
+            className="img-logo"
+          />
+          {/* <br></br>
+          <Link to="/login" className="btn btn-primary">
             Log In
           </Link>
-          <Link to="/users/register" className="btn btn-primary">
+          <Link to="/register" className="btn btn-primary">
             Sign Up
-          </Link>
+          </Link> */}
+
+
+
+          <footer>
+            <hr></hr>
+            <p class="about">
+              <a href="/">Home</a> |{" "}
+              <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
+            </p>
+            <p>© Copyright 2023 - Yousuf Mehraban</p>
+          </footer>
+
         </>
       )}
     </div>

@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 /** Database setup for movie-radar. */
 const { Client } = require("pg");
 const { getDatabaseUri } = require("./config");

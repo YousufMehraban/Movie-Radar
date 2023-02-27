@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 
 describe("config can come from env", function () {
   test("works", function() {

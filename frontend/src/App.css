@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: #0d0c0c80;
+  background-color: rgb(78, 185, 220);
 }
 .App-logo {
   height: 40vmin;
@@ -17,7 +17,7 @@ body {
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(37, 37, 99);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -39,5 +39,3 @@ body {
     transform: rotate(360deg);
   }
 }
-
-

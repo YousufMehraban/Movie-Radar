@@ -17,7 +17,7 @@ const SearchForm = ({ search }) => {
   return (
     <Form onSubmit={handleSubmit} id="searchForm">
       <Input
-        placeholder="Enter Search Term"
+        placeholder="Movie Name"
         name="searchTerm"
         value={searchTerm}
         onChange={handleChange}

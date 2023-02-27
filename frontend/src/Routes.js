@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import SignUpForm from "./forms/SignUpForm";
 import LogInForm from "./forms/LogInForm";
 import Profile from "./forms/Profile";
@@ -11,7 +11,7 @@ import Recommendation from "./recommendation/Recommendation";
 const Routes = ({ logIn, signUp }) => {
   return (
     <div>
-      <Routes>
+      <Switch>
         <PrivateRoute exact path="/recommendation">
           <Recommendation />
         </PrivateRoute>
@@ -20,7 +20,7 @@ const Routes = ({ logIn, signUp }) => {
           <WatchList />
         </PrivateRoute>
 
-        <PrivateRoute exact path="/users/:username">
+        <PrivateRoute exact path="/profile">
           <Profile />
         </PrivateRoute>
 
@@ -28,16 +28,15 @@ const Routes = ({ logIn, signUp }) => {
           <Homepage />
         </Route>
 
-        <Route exact path="/users/login">
+        <Route exact path="/login">
           <LogInForm logIn={logIn} />
         </Route>
 
-        <Route exact path="/users/register">
+        <Route exact path="/register">
           <SignUpForm signUp={signUp} />
         </Route>
-
-        <Route path="*" element={<Navigate to="/" replace />}></Route>
-      </Routes>
+        <Redirect to="/" />
+      </Switch>
     </div>
   );
 };
