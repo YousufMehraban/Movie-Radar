@@ -1,20 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Homepage.css";
 import userContext from "./helpers/userContext";
 import SearchForm from "./forms/SearchForm";
 import MovieRadarAPI from "./APIs";
-import HomepageCard from "./HomepageCard";
+import HomepageCardList from "./HomepageCardList";
 
 const HomePage = () => {
   const { currentUser } = useContext(userContext);
-  const [imdb_id, setImdb_id] = useState(null);
+  const [details, setDetails] = useState(null);
   const [sources, setSources] = useState(null);
 
   async function search(term) {
     const imdb_id = await MovieRadarAPI.getIMDB(term);
-    const res = await MovieRadarAPI.getSources(imdb_id);
-    setSources(res);
+    const resSources = await MovieRadarAPI.getSources(imdb_id);
+    const resDetails = await MovieRadarAPI.getDetails(imdb_id);
+    setSources(resSources);
+    setDetails(resDetails);
   }
 
   return (
@@ -23,14 +25,9 @@ const HomePage = () => {
         <>
           <div id="search">
             <SearchForm search={search} />
-          </div>
-
-          <div>
-            {sources
-              ? sources.map((movie) => {
-                  return <HomepageCard movie={movie} />;
-                })
-              : ""}
+            <Link to={"/movies"}>
+              <HomepageCardList sources={sources} details={details} />
+            </Link>
           </div>
 
           <h1> Welcome to Movie Radar! </h1>
@@ -58,8 +55,8 @@ const HomePage = () => {
             className="img-logo"
           />
           <img
-            src="/logos/directtv.png"
-            alt="Direct TV logo"
+            src="/logos/disney+.png"
+            alt="Disney + logo"
             className="img-logo"
           />
           <img
@@ -72,24 +69,22 @@ const HomePage = () => {
             alt="Google Playstore logo"
             className="img-logo"
           />
-          <img
-            src="/logos/hulu.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
-          <img
-            src="/logos/hbo.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
-          <img
-            src="/logos/itunes.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
+          <img src="/logos/hulu.png" alt="Hulu logo" className="img-logo" />
+
+          <img src="/logos/espn.png" alt="ESPN logo" className="img-logo" />
           <img
             src="/logos/peacock.png"
-            alt="Google Playstore logo"
+            alt="Peacock logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/shudder.png"
+            alt="Shudder logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/paramount.png"
+            alt="Paramount logo"
             className="img-logo"
           />
 
@@ -131,8 +126,8 @@ const HomePage = () => {
             className="img-logo"
           />
           <img
-            src="/logos/directtv.png"
-            alt="Direct TV logo"
+            src="/logos/disney+.png"
+            alt="Disney + logo"
             className="img-logo"
           />
           <img
@@ -145,24 +140,22 @@ const HomePage = () => {
             alt="Google Playstore logo"
             className="img-logo"
           />
-          <img
-            src="/logos/hulu.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
-          <img
-            src="/logos/hbo.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
-          <img
-            src="/logos/itunes.png"
-            alt="Google Playstore logo"
-            className="img-logo"
-          />
+          <img src="/logos/hulu.png" alt="Hulu logo" className="img-logo" />
+
+          <img src="/logos/espn.png" alt="ESPN logo" className="img-logo" />
           <img
             src="/logos/peacock.png"
-            alt="Google Playstore logo"
+            alt="Peacock logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/shudder.png"
+            alt="Shudder logo"
+            className="img-logo"
+          />
+          <img
+            src="/logos/paramount.png"
+            alt="Paramount logo"
             className="img-logo"
           />
 

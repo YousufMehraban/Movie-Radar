@@ -13,7 +13,7 @@ const SearchForm = ({ search }) => {
     e.preventDefault();
     search(searchTerm.trim() || undefined);
     setSearchTerm(searchTerm.trim());
-    // return <Redirect to="/movies" />;
+    return <Redirect to="/movies" />;
   };
 
   return (

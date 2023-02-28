@@ -1,4 +1,4 @@
-#wrapper a {
+/* #wrapper a {
   text-decoration: none;
   color: unset;
   align-self: flex-start;
@@ -15,7 +15,7 @@ a:hover {
   align-items: center;
 }
 
-.card {
+/* .card {
   width: 35vw;
   padding: 25px;
   margin: 20px;
@@ -23,7 +23,7 @@ a:hover {
   text-align: left;
   color: white;
   box-shadow: 1px 1px 3px 3px whitesmoke;
-}
+} */
 
 /* #search {
   display: flex;
@@ -35,4 +35,4 @@ a:hover {
 input {
   height: 40px;
   margin: 5px 0px 5px 0px;
-} */
+} */ 

@@ -8,6 +8,7 @@ import WatchList from "./watchlist/WatchList";
 import PrivateRoute from "./PrivateRoutes";
 import Recommendation from "./recommendation/Recommendation";
 import HomepageCard from "./HomepageCard";
+import MovieDetail from "./MovieDetail";
 
 const Routes = ({ logIn, signUp }) => {
   return (
@@ -25,8 +26,8 @@ const Routes = ({ logIn, signUp }) => {
           <Profile />
         </PrivateRoute>
 
-        <PrivateRoute exact path="/movies">
-          <HomepageCard />
+        <PrivateRoute exact path="/movie">
+          <MovieDetail />
         </PrivateRoute>
 
         <Route exact path="/">

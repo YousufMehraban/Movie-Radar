@@ -1,26 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Card, CardText, CardTitle } from "reactstrap";
-import "./watchlist/WatchList.css";
+import MovieRadarAPI from "./APIs";
 import "./Homepage.css";
+import MovieDetail from "./MovieDetail";
 
-const HomepageCard = ({ movie }) => {
-  console.log("MOVIE*******++++>>>>", movie);
-  console.log("URL*******++++>>>>", movie.web_url);
+const HomepageCard = ({ movie, details }) => {
 
+  async function geetMovieDetail(){
+    const res = await MovieRadarAPI.getDetails()
+  }
   return (
-    // <div className="movieRadarHome">
-    <Card key={movie.source_id} className="movieCards">
-      <iframe src={movie.web_url}></iframe>
-      {/* <img alt="movie poster" src={movie.web_url} /> */}
+    <Card key={movie.source_id}>
+      {/* <MovieDetail imdb_id={details.imdb_id} />; */}
       <a href={movie.web_url}>
-        <CardTitle tag="h2"> {movie.name}</CardTitle>
+        <CardTitle tag="h1"> {movie.name}</CardTitle>
       </a>
-      <CardText tag="h6">
-        type: {movie.type} | price: {movie.price}
-      </CardText>
+      <a href={details.trailer} size="sm">
+        <CardText tag="h6">&#9658; Watch Trailer</CardText>
+      </a>
+      <a href={movie.web_url} className="btn btn" size="sm">
+        <CardText>Click to Rent</CardText>
+      </a>
+      <a href="/movie" className="btn btn" size="sm">
+        <CardText>View Details</CardText>
+      </a>
+      <img src={details.poster} id="posterImage" />
     </Card>
-    // </div>
   );
 };
 export default HomepageCard;

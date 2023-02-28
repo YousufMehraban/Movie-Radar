@@ -3,7 +3,7 @@ README.md
 # Movie Radar
 
 Movie Radar is a full-stack movie searching application/website.
-It lets users to find out what platform (NetFlix, Amazon Prim, HBO Max, Hulu...) streams a movie.
+It lets users to find out what platform (such as NetFlix, Amazon Prime, HBO Max, Hulu...) streams a movie.
 Users should login or register to use the application.
 
 ## Available Scripts
