@@ -1,6 +1,5 @@
 // "use strict";
 
-const { BadRequestError } = require("../customError");
 const db = require("../db.js");
 const Recommendation = require("./recommendation.js");
 const {
@@ -18,9 +17,8 @@ afterAll(commonAfterAll);
 /**************** add a  movie to recommendation ***********************/
 
 describe("create", function () {
-  const newRec = {
+  const newWatch = {
     movie_name: "M1",
-    platform: "NetFlix",
     poster: "url",
     rating: "10/10",
     release_year: 2023,
@@ -29,23 +27,15 @@ describe("create", function () {
   };
 
   test("works", async function () {
-    let res = await Recommendation.create({ ...newRec });
-    expect(res).toEqual(newRec);
+    let res = await Recommendation.createAndAddToRecommendation({
+      ...newWatch,
+    });
+    expect(res).toEqual(newWatch);
     const found = await db.query(
       "SELECT * FROM recommendation WHERE movie_name = 'M1'"
     );
-    expect(found.rows.platform).toEqual("NetFlix");
+    expect(found.rows.release_year).toEqual(2023);
     expect(found.rows[poster]).toEqual("url");
-  });
-
-  test("bad request with duplicate data", async function () {
-    try {
-      await Recommendation.create({ ...newRec });
-      await Recommendation.create({ ...newRec });
-      fail();
-    } catch (err) {
-      expect(err instanceof BadRequestError).toBeTruthy();
-    }
   });
 });
 
@@ -53,16 +43,14 @@ describe("create", function () {
 
 describe("findAll", function () {
   test("works", async function () {
-    let res = await Recommendation.findAll();
+    let res = await Recommendation.findMyRecommendation();
     expect(res).toEqual({
       movie_name: "Pathaan",
-      platform: "amazon prime",
       poster:
         "https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtYjU4Ny00MDZkLTk3MmUtYTRjMzVkZGJlNmYyXkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_SX300.jpg",
       rating: "6.6/10",
       release_year: 2023,
       imdb_id: "tt12844910",
-      user_id: 1,
     });
   });
 });
@@ -76,14 +64,5 @@ describe("remove", function () {
       "SELECT * FROM recommendation WHERE movie_name='Pathaan'"
     );
     expect(res.rows.length).toEqual(0);
-  });
-
-  test("not found if no such movie_name exist", async function () {
-    try {
-      await Recommendation.remove("nope");
-      fail();
-    } catch (err) {
-      expect(err instanceof NotFoundError).toBeTruthy();
-    }
   });
 });

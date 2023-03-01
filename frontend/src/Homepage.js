@@ -4,10 +4,10 @@ import "./Homepage.css";
 import userContext from "./helpers/userContext";
 import SearchForm from "./forms/SearchForm";
 import MovieRadarAPI from "./APIs";
-import HomepageCardList from "./HomepageCardList";
+import HomepageCard from "./HomepageCard";
 
 const HomePage = () => {
-  const { currentUser } = useContext(userContext);
+  const { currentUser, setMovieDetails } = useContext(userContext);
   const [details, setDetails] = useState(null);
   const [sources, setSources] = useState(null);
 
@@ -17,6 +17,7 @@ const HomePage = () => {
     const resDetails = await MovieRadarAPI.getDetails(imdb_id);
     setSources(resSources);
     setDetails(resDetails);
+    setMovieDetails(resDetails);
   }
 
   return (
@@ -25,9 +26,7 @@ const HomePage = () => {
         <>
           <div id="search">
             <SearchForm search={search} />
-            <Link to={"/movies"}>
-              <HomepageCardList sources={sources} details={details} />
-            </Link>
+            <HomepageCard sources={sources} details={details} />
           </div>
 
           <h1> Welcome to Movie Radar! </h1>
@@ -87,15 +86,6 @@ const HomePage = () => {
             alt="Paramount logo"
             className="img-logo"
           />
-
-          <footer>
-            <hr></hr>
-            <p className="about">
-              <a href="/">Home</a> |{" "}
-              <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
-            </p>
-            <p>© Copyright 2023 - Yousuf Mehraban</p>
-          </footer>
         </>
       ) : (
         <>
@@ -158,15 +148,6 @@ const HomePage = () => {
             alt="Paramount logo"
             className="img-logo"
           />
-
-          <footer>
-            <hr></hr>
-            <p className="about">
-              <a href="/">Home</a> |{" "}
-              <a href="mailto:yousufmehraban@yahoo.com">Contact Us </a>
-            </p>
-            <p>© Copyright 2023 - Yousuf Mehraban</p>
-          </footer>
         </>
       )}
     </div>

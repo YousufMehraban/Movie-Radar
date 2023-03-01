@@ -97,6 +97,4 @@ router.patch("/", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
-
-
 module.exports = router;

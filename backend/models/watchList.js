@@ -1,73 +1,74 @@
-// "use strict";
-
 const db = require("../db");
-const { BadRequestError, NotFoundError } = require("../customError");
 
-/** All related methods for watch_list. */
+/** All related methods for watchlist. */
 
 class WatchList {
-  /** Create watch_list list (from data), update db, return the list data.
-   * data should be { movie_name, platform, poster, rating, release_year, imdb_id, user_id }
-   * Returns { movie_name, platform, poster, rating, release_year, imdb_id, user_id  }
+  /** Create watchlist (from data), update db, return the list data.
+   * data should be { movie_name, poster, rating, release_year, imdb_id }
+   * Returns { movie_name, poster, rating, release_year, imdb_id  }
    * Throws BadRequestError if movie_name already exist in database.
    * */
 
-  static async create({
+  static async createAndAddToWatchList({
     movie_name,
-    platform,
     poster,
     rating,
     release_year,
     imdb_id,
     user_id,
   }) {
-    const duplicateCheck = await db.query(
-      `SELECT movie_name
-           FROM watch_list
+    let movie_id = null;
+    const movie_exists = await db.query(
+      `SELECT id
+           FROM movies
            WHERE movie_name = $1`,
       [movie_name]
     );
 
-    if (duplicateCheck.rows[0])
-      throw new BadRequestError(`Duplicate movie_name: ${movie_name}`);
+    if (movie_exists.rows[0]) movie_id = movie_exists.rows[0].id;
+    else {
+      const newMovie = await db.query(
+        `INSERT INTO movies (movie_name, poster, rating, release_year, imdb_id)
+             VALUES ($1, $2, $3, $4, $5)
+             RETURNING  id`,
+        [movie_name, poster, rating, release_year, imdb_id]
+      );
+      movie_id = newMovie.rows[0].id;
+    }
 
     const result = await db.query(
-      `INSERT INTO watch_list
-           ( movie_name, platform, poster, rating, release_year, imdb_id, user_id )
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING  movie_name, platform, poster, rating, release_year, imdb_id, user_id `,
-      [movie_name, platform, poster, rating, release_year, imdb_id, user_id]
+      `INSERT INTO watchlist
+           ( movie_id, user_id )
+           VALUES ($1, $2) `,
+      [movie_id, user_id]
     );
-    const watch_list = result.rows[0];
+    const watchlist = result.rows[0];
 
-    return watch_list;
+    return watchlist;
   }
 
-  /** Find all movie_names from watch_list.
-   * Returns [{ movie_name, platform, poster, rating, release_year, imdb_id, user_id },...]
+  /** Find all movie_names in watchlist.
+   * Returns [{ movie_name, poster, rating, release_year, imdb_id, },...]
    * */
 
-  static async findAll() {
-    const watch_lists =
-      await db.query(`SELECT movie_name, platform, poster, rating, release_year, imdb_id, user_id 
-    FROM watch_list`);
-    return watch_lists.rows;
+  static async findMyWatchlist(user_id) {
+    const watchlists = await db.query(
+      `SELECT m.id, m.movie_name, m.poster, m.rating, m.release_year, m.imdb_id, w.user_id 
+    FROM movies as m inner join watchlist as w on m.id=w.movie_id where w.user_id=$1`,
+      [user_id]
+    );
+    return watchlists.rows;
   }
 
-  /** Find a movie_names from watch_list.
-   * Returns [{ movie_name }]
+  /** Delete a movie_id from watchlist.
+   * Returns [{ }]
    * */
-  static async remove(movie_name) {
-    const result = await db.query(
+  static async removeFromWatchList(movie_id) {
+    await db.query(
       `DELETE
-           FROM watch_list
-           WHERE movie_name = $1
-           RETURNING movie_name`,
-      [movie_name]
+           FROM watchlist WHERE movie_id=$1`,
+      [movie_id]
     );
-    const movie = result.rows[0];
-
-    if (!movie) throw new NotFoundError(`Movie_name not found: ${movie}`);
   }
 }
 

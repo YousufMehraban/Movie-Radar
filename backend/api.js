@@ -1,35 +1,30 @@
-import axios from "axios";
+const axios = require("axios");
+const WatchMode_API_URL =
+  process.env.WatchMode_API_URL || `https://api.watchmode.com/v1/title`;
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+class MovieRadarAPI {
+  static key = process.env.key || "UcLcOtJkVYI1R2X6u1kAQIXTcbf2uitIqyoJixrs";
 
-// movieRadar class handles all CRUD operations to the URL
+  static async detailRequest(endpoint, data = {}, method = "get") {
+    console.debug("detailAPI Call:", endpoint, method);
 
-class movieRadarAPI {
-  // we store token here for authentication
-  static token;
-
-  static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
-
-    // we send the token via the header for authentication
-    const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${movieRadarAPI.token}` };
-    const params = (method === "get")
-        ? data
-        : {};
+    const url = `${WatchMode_API_URL}/${endpoint}/details/?apiKey=${this.key}`;
+    const headers = {};
+    const params = method === "get" ? data : {};
 
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
-      console.error("API Error:", err.response);
+      console.error("detailAPI Error:", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
   }
-
+  static async getDetails(imdb_id) {
+    let res = await this.detailRequest(imdb_id);
+    // res is an  object that has => id, title, year, poster, imdb_id, user_rating, trailer,
+    return res;
+  }
 }
 
-// // for now, put token ("testuser" / "password" on class)
-// movieRadarAPI.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-//     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-//     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+module.exports = MovieRadarAPI;

@@ -9,28 +9,24 @@ const { BadRequestError } = require("../customError");
 const { ensureLoggedIn } = require("../middleware/authorizations");
 const Recommendation = require("../models/recommendation");
 const recommendationSchema = require("../schemas/recommendation.json");
-
+const movieSchema = require("../schemas/movieSchema.json");
 const router = new express.Router();
 
 /** POST / { recommendation } =>  { recommendation }
  * recommendation = {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
     "imdb_id",
-    "user_id" 
   }
  *
  * Returns {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
     "imdb_id",
-    "user_id" 
   }
  *
  * Authorization required: must be logged in
@@ -38,13 +34,15 @@ const router = new express.Router();
 
 router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, recommendationSchema);
+    const validator = jsonschema.validate(req.body, movieSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
     }
 
-    const recommendation = await Recommendation.create(req.body);
+    const recommendation = await Recommendation.createAndAddToRecommendation(
+      req.body
+    );
     return res.status(201).json({ recommendation });
   } catch (err) {
     return next(err);
@@ -54,44 +52,31 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 /** GET /  =>
  *   { recommendation: [ {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
     "imdb_id",
-    "user_id" 
   }, ...] }
  * Authorization required: must be logged in
  */
 
-router.get("/", ensureLoggedIn, async function (req, res, next) {
+router.get(`/:user_id`, ensureLoggedIn, async function (req, res, next) {
   try {
-    const recommendations = await Recommendation.findAll();
+    const recommendations = await Recommendation.findMyRecommendation(
+      req.params.user_id
+    );
     return res.json({ recommendations });
   } catch (err) {
     return next(err);
   }
 });
 
-/** GET /[name]  =>  { movie }
- *
- *  movie = {  
-    "movie_name",
-    "platform",
-    "poster",
-    "rating",
-    "release_year",
-    "imdb_id",
-    "user_id" 
-  }
- *  movie is a single entry in recommendation list
+/** DELETE /[id]  =>  ''
  * Authorization required: must be logged in.
  */
-
-router.get("/:name", ensureLoggedIn, async function (req, res, next) {
+router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
   try {
-    const movie = await Recommendation.get(req.params.name);
-    return res.json({ movie });
+    await Recommendation.removeFromRecommendation(req.params.id);
   } catch (err) {
     return next(err);
   }

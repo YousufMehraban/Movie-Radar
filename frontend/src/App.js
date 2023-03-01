@@ -12,6 +12,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
   const [token, setToken] = useLocalStorage("userToken");
   const [infoLoaded, setInfoLoaded] = useState(false);
+  const [movieDetails, setMovieDetails] = useState("")
 
   async function logIn(data) {
     const res = await MovieRadarAPI.login(data);
@@ -48,7 +49,7 @@ function App() {
   if (!infoLoaded) return "loading...";
   return (
     <BrowserRouter>
-      <userContext.Provider value={{ currentUser, setCurrentUser }}>
+      <userContext.Provider value={{ currentUser, setCurrentUser, movieDetails, setMovieDetails }}>
         <div className="App">
           <NavBar logOut={logOut} />
           <Routes logIn={logIn} signUp={signUp} />

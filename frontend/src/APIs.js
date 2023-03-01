@@ -18,7 +18,7 @@ const WatchMode_API_URL =
 class MovieRadarAPI {
   // the token for interactive with the API will be stored here.
   static token;
-  static key = process.env.key || "UcLcOtJkVYI1R2X6u1kAQIXTcbf2uitIqyoJixrs";
+  static key = process.env.key || "ZtlXmDelS2TAVNvn5E9qIkqkJ77taWdsl2bNqUfJ";
 
   static async dbRequest(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, method);
@@ -37,22 +37,6 @@ class MovieRadarAPI {
       throw Array.isArray(message) ? message : [message];
     }
   }
-
-  // static async nameRequest(endpoint, data = {}, method = "get") {
-  //   console.debug("API Call:", endpoint, method);
-
-  //   const url = `${API_NAME_URL}${endpoint}`;
-  //   const headers = { apiKey: this.key };
-  //   const params = method === "get" ? data : {};
-
-  //   try {
-  //     return (await axios({ url, method, data, params, headers })).data;
-  //   } catch (err) {
-  //     console.error("nameAPI Error:", err.response);
-  //     let message = err.response.data.error.message;
-  //     throw Array.isArray(message) ? message : [message];
-  //   }
-  // }
 
   static async nameRequest(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, method);
@@ -126,20 +110,20 @@ class MovieRadarAPI {
   //** Update a user information */
 
   static async updateUser(username, data) {
-    await this.request(`users/${username}`, data, "patch");
+    await this.dbrequest(`users/${username}`, data, "patch");
   }
 
   /** Get all movies from watch list. */
 
-  static async getWatchList() {
-    let res = await this.dbRequest("watchlist");
+  static async getWatchList(user_id) {
+    let res = await this.dbRequest(`watchlist/${user_id}`);
     return res.watchlists;
   }
 
   /** Get all movies from recommendation list. */
 
-  static async getRecommendation() {
-    let res = await this.dbRequest("recommendation");
+  static async getRecommendation(user_id) {
+    let res = await this.dbRequest(`recommendation/${+user_id}`);
     return res.recommendations;
   }
 
@@ -159,27 +143,27 @@ class MovieRadarAPI {
 
   /** Get the movie imdb_id */
 
-  static async getMovieDatials(movie_name) {
-    let res = await this.nameRequest(movie_name);
-    const imdb_id = res.title_results[0].imdb_id;
-    if (imdb_id) {
-      let res2 = await this.detailRequest(imdb_id);
-      // res2 is an objects that has => title, year, imdb_id, user_rating, trailer, poster
-      return res2;
-    }
-  }
+  // static async getMovieDatials(movie_name) {
+  //   let res = await this.nameRequest(movie_name);
+  //   const imdb_id = res.title_results[0].imdb_id;
+  //   if (imdb_id) {
+  //     let res2 = await this.detailRequest(imdb_id);
+  //     // res2 is an objects that has => title, year, imdb_id, user_rating, trailer, poster
+  //     return res2;
+  //   }
+  // }
 
-  /** Get the movie imdb_id */
+  // /** Get the movie imdb_id */
 
-  static async getMovieSources(movie_name) {
-    let res = await this.nameRequest(movie_name);
-    const imdb_id = res.title_results[0].imdb_id;
-    if (imdb_id) {
-      let res2 = await this.sourceRequest(imdb_id);
-      // res2 is an array of objects, each object has => source_id, name, type, web_url, price
-      return res2;
-    }
-  }
+  // static async getMovieSources(movie_name) {
+  //   let res = await this.nameRequest(movie_name);
+  //   const imdb_id = res.title_results[0].imdb_id;
+  //   if (imdb_id) {
+  //     let res2 = await this.sourceRequest(imdb_id);
+  //     // res2 is an array of objects, each object has => source_id, name, type, web_url, price
+  //     return res2;
+  //   }
+  // }
 
   static async getIMDB(movie_name) {
     let res = await this.nameRequest(movie_name);
@@ -194,7 +178,7 @@ class MovieRadarAPI {
   }
   static async getDetails(imdb_id) {
     let res = await this.detailRequest(imdb_id);
-    // res is an  object that has => id, title, year, poster, imdb_id, user_rating, trailer, 
+    // res is an  object that has => id, title, year, poster, imdb_id, user_rating, trailer,
     return res;
   }
 }

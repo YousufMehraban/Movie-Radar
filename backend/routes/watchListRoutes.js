@@ -1,50 +1,48 @@
 // "use strict";
 
-/** Routes for watchList */
+/** Routes for Watchlist */
 
 const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../customError");
 const { ensureLoggedIn } = require("../middleware/authorizations");
-const WatchList = require("../models/watchList");
-const watchListSchema = require("../schemas/watchList.json");
+const Watchlist = require("../models/watchList");
+const watchlistSchema = require("../schemas/watchList.json");
+const movieSchema = require("../schemas/movieSchema.json");
 
 const router = new express.Router();
 
 /** POST / { watchlist } =>  { watchlist }
  * watchlist = {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
-    imdb_id,
-    "user_id" 
+    "imdb_id",
   }
  *
  * Returns {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
-    imdb_id,
-    "user_id" 
+    "imdb_id",
   }
+ *
  * Authorization required: must be logged in
  */
 
 router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, watchListSchema);
+    const validator = jsonschema.validate(req.body, movieSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
     }
 
-    const watchlist = await WatchList.create(req.body);
-    return res.status(201).json({ watchlist });
+    const watchList = await Watchlist.createAndAddToWatchList(req.body);
+    return res.status(201).json({ watchList });
   } catch (err) {
     return next(err);
   }
@@ -53,44 +51,29 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 /** GET /  =>
  *   { watchlist: [ {  
     "movie_name",
-    "platform",
     "poster",
     "rating",
     "release_year",
-    imdb_id,
-    "user_id" 
+    "imdb_id",
   }, ...] }
  * Authorization required: must be logged in
  */
 
-router.get("/", ensureLoggedIn, async function (req, res, next) {
+router.get("/:user_id", ensureLoggedIn, async function (req, res, next) {
   try {
-    const watchlists = await WatchList.findAll();
+    const watchlists = await Watchlist.findMyWatchlist(req.params.user_id);
     return res.json({ watchlists });
   } catch (err) {
     return next(err);
   }
 });
 
-/** GET /[name]  =>  { movie }
- *
- *  movie = {  
-    "movie_name",
-    "platform",
-    "poster",
-    "rating",
-    "release_year",
-    imdb_id,
-    "user_id" 
-  }
- *  movie is a single entry in watch list.
+/** DELETE /[id]  =>  ''
  * Authorization required: must be logged in.
  */
-
-router.get("/:name", ensureLoggedIn, async function (req, res, next) {
+router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
   try {
-    const movie = await WatchList.get(req.params.name);
-    return res.json({ movie });
+    await Watchlist.removeFromWatchlist(req.params.id);
   } catch (err) {
     return next(err);
   }

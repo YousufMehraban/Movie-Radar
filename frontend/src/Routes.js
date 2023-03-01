@@ -14,11 +14,11 @@ const Routes = ({ logIn, signUp }) => {
   return (
     <div>
       <Switch>
-        <PrivateRoute exact path="/recommendation">
+        <PrivateRoute exact path="/recommendation/:user_id">
           <Recommendation />
         </PrivateRoute>
 
-        <PrivateRoute exact path="/watchlist">
+        <PrivateRoute exact path="/watchlist/:user_id">
           <WatchList />
         </PrivateRoute>
 
@@ -27,9 +27,12 @@ const Routes = ({ logIn, signUp }) => {
         </PrivateRoute>
 
         <PrivateRoute exact path="/movie">
-          <MovieDetail />
+          <HomepageCard />
         </PrivateRoute>
 
+        <Route exact path="/movie/:movie_id">
+          <MovieDetail />
+        </Route>
         <Route exact path="/">
           <Homepage />
         </Route>

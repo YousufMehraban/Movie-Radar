@@ -16,12 +16,12 @@ const NavBar = ({ logOut }) => {
         {currentUser ? (
           <>
             <NavItem>
-              <NavLink exact to="/watchlist">
+              <NavLink exact to="/watchlist/:user_id">
                 Watch List
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink exact to="/recommendation">
+              <NavLink exact to="/recommendation/:user_id">
                 Recommendation
               </NavLink>
             </NavItem>
@@ -30,11 +30,9 @@ const NavBar = ({ logOut }) => {
                 Profile
               </NavLink>
             </NavItem>
-            <NavItem className="btn btn-outline-danger">
-              <NavLink exact to="/logout" onClick={logOut}>
-                LogOut
-              </NavLink>
-            </NavItem>
+            <NavLink exact to="/logout" onClick={logOut}>
+              <NavItem className="btn btn-outline-danger">LogOut</NavItem>
+            </NavLink>
           </>
         ) : (
           <>

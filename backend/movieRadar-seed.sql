@@ -22,7 +22,7 @@ VALUES ('Pathaan', 'https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtYjU4Ny00
         '6.5/10', 2011, 'tt1632708');
 
 INSERT INTO recommendation (movie_id, user_id)
-VALUES (1, 1),(2,1),(3,1),(4,2),(5,2),(6,2);
+VALUES (1, 2),(2,2),(3,2),(4,1),(5,1),(6,1);
 
 INSERT INTO watchlist (movie_id, user_id)
 VALUES (1, 1),(2,1),(3,1),(4,2),(5,2),(6,2);

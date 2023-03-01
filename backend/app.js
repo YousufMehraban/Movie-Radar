@@ -9,6 +9,7 @@ const { authenticateJWT } = require("./middleware/authorizations");
 const userRoutes = require("./routes/userRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
 const watchListRoutes = require("./routes/watchListRoutes");
+const movieRoutes = require("./routes/movieRoutes");
 const morgan = require("morgan");
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(authenticateJWT);
 app.use("/users", userRoutes);
 app.use("/recommendation", recommendationRoutes);
 app.use("/watchlist", watchListRoutes);
+app.use("/movie", movieRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {

@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Recommendation.css";
 import MovieRadarAPI from "../APIs";
 import RecommendationCard from "./RecommendationCard";
+import userContext from "../helpers/userContext";
+import { v4 as uuid } from "uuid";
 
 const Recommendation = () => {
   const [recommendations, setRecommendations] = useState("");
+  const { currentUser } = useContext(userContext);
+  const user_id = currentUser.id;
 
   useEffect(() => {
-    async function getRecommendations() {
-      const res = await MovieRadarAPI.getRecommendation();
+    async function getRecData() {
+      const res = await MovieRadarAPI.getRecommendation(user_id);
       setRecommendations(res);
     }
-    getRecommendations();
+    getRecData();
   }, []);
+  console.log(currentUser.id);
 
   return (
     <div id="wrapper">
       {recommendations
         ? recommendations.map((movie) => {
-            return <RecommendationCard movie={movie} key={movie.id} />;
+            return <RecommendationCard movie={movie} key={uuid()} />;
           })
         : "loading........."}
     </div>

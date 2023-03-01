@@ -19,7 +19,7 @@ class User {
   static async authenticate(username, password) {
     // first find the user in the db.
     const result = await db.query(
-      `SELECT username,
+      `SELECT id, username,
                   password,
                   first_name,
                   last_name,
@@ -69,7 +69,7 @@ class User {
             last_name,
             email)
            VALUES ($1, $2, $3, $4, $5)
-           RETURNING username, first_name, last_name, email`,
+           RETURNING id, username, first_name, last_name, email`,
       [username, hashedPassword, first_name, last_name, email]
     );
 
@@ -84,7 +84,7 @@ class User {
    **/
   static async get(username) {
     const userRes = await db.query(
-      `SELECT username, first_name, last_name, email FROM users WHERE username = $1`,
+      `SELECT id, username, first_name, last_name, email FROM users WHERE username = $1`,
       [username]
     );
 
@@ -99,7 +99,7 @@ class User {
    **/
   static async getAll() {
     const userRes = await db.query(
-      `SELECT username, first_name, last_name, email FROM users`
+      `SELECT id, username, first_name, last_name, email FROM users`
     );
 
     const user = userRes.rows;
